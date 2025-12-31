@@ -6,7 +6,8 @@
 
 A lightweight, zero-dependency monitoring system for Raspberry Pi fleets. View CPU, memory, disk, and temperature metrics from all your Pis in a beautiful web dashboard.
 
-![Dashboard Preview](docs/dashboard-preview.png)
+<!-- Dashboard screenshot placeholder - add your own screenshot here -->
+<!-- ![Dashboard Preview](docs/dashboard-preview.png) -->
 
 ## Table of Contents
 
@@ -31,6 +32,7 @@ A lightweight, zero-dependency monitoring system for Raspberry Pi fleets. View C
 - [Troubleshooting](#troubleshooting)
 - [Resource Usage](#resource-usage)
 - [Security Considerations](#security-considerations)
+- [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -134,8 +136,8 @@ ping <other-pi-ip>
 Clone the repository and use the installation script:
 
 ```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/pi-monitor.git
+# Clone the repository (replace with your fork URL if applicable)
+git clone https://github.com/JGRSGIS/pi-monitor.git
 cd pi-monitor
 
 # Install agent on each Pi you want to monitor
@@ -143,6 +145,10 @@ sudo ./install.sh agent
 
 # Install dashboard on one Pi (your "monitoring server")
 sudo ./install.sh dashboard
+
+# Verify the installation
+curl http://localhost:5555/metrics    # Test agent (should return JSON)
+curl http://localhost:8080            # Test dashboard (should return HTML)
 ```
 
 The install script will:
@@ -159,18 +165,25 @@ The install script will:
 # Create installation directory
 sudo mkdir -p /opt/pi-monitor
 
-# Download the agent script
+# Option A: Download the agent script directly
 sudo curl -o /opt/pi-monitor/pi_monitor_agent.py \
-    https://raw.githubusercontent.com/YOUR_USERNAME/pi-monitor/main/agent/pi_monitor_agent.py
+    https://raw.githubusercontent.com/JGRSGIS/pi-monitor/main/agent/pi_monitor_agent.py
+
+# Option B: Or copy from cloned repository
+# sudo cp agent/pi_monitor_agent.py /opt/pi-monitor/
 
 # Make it executable
 sudo chmod +x /opt/pi-monitor/pi_monitor_agent.py
 
-# Test the agent
+# Test the agent (runs in foreground, Ctrl+C to stop)
 python3 /opt/pi-monitor/pi_monitor_agent.py
 ```
 
-Verify it works by visiting `http://<pi-ip>:5555/metrics` in your browser.
+Verify it works by visiting `http://<pi-ip>:5555/metrics` in your browser or running:
+
+```bash
+curl http://localhost:5555/metrics
+```
 
 #### Step 2: Install the Dashboard (on one Pi)
 
@@ -178,9 +191,12 @@ Verify it works by visiting `http://<pi-ip>:5555/metrics` in your browser.
 # Create installation directory
 sudo mkdir -p /opt/pi-monitor
 
-# Download the dashboard script
+# Option A: Download the dashboard script directly
 sudo curl -o /opt/pi-monitor/pi_monitor_dashboard.py \
-    https://raw.githubusercontent.com/YOUR_USERNAME/pi-monitor/main/dashboard/pi_monitor_dashboard.py
+    https://raw.githubusercontent.com/JGRSGIS/pi-monitor/main/dashboard/pi_monitor_dashboard.py
+
+# Option B: Or copy from cloned repository
+# sudo cp dashboard/pi_monitor_dashboard.py /opt/pi-monitor/
 
 # Make it executable
 sudo chmod +x /opt/pi-monitor/pi_monitor_dashboard.py
@@ -188,11 +204,30 @@ sudo chmod +x /opt/pi-monitor/pi_monitor_dashboard.py
 # Configure monitored hosts (see Configuration section)
 sudo nano /opt/pi-monitor/pi_monitor_dashboard.py
 
-# Start the dashboard
+# Start the dashboard (runs in foreground, Ctrl+C to stop)
 python3 /opt/pi-monitor/pi_monitor_dashboard.py
 ```
 
 Visit `http://<dashboard-pi-ip>:8080` to see the dashboard.
+
+#### Running Without Systemd
+
+If your system doesn't use systemd (Docker containers, WSL, older systems), you can run the scripts directly:
+
+```bash
+# Run agent in background
+nohup python3 /opt/pi-monitor/pi_monitor_agent.py > /var/log/pi-monitor-agent.log 2>&1 &
+
+# Run dashboard in background
+nohup python3 /opt/pi-monitor/pi_monitor_dashboard.py > /var/log/pi-monitor-dashboard.log 2>&1 &
+
+# Check if running
+pgrep -f pi_monitor
+
+# Stop the services
+pkill -f pi_monitor_agent.py
+pkill -f pi_monitor_dashboard.py
+```
 
 ### Running as a Service
 
@@ -203,7 +238,7 @@ To run Pi Monitor automatically on boot:
 ```bash
 # Download service file
 sudo curl -o /etc/systemd/system/pi-monitor-agent.service \
-    https://raw.githubusercontent.com/YOUR_USERNAME/pi-monitor/main/agent/pi-monitor-agent.service
+    https://raw.githubusercontent.com/JGRSGIS/pi-monitor/main/agent/pi-monitor-agent.service
 
 # Reload systemd, enable, and start
 sudo systemctl daemon-reload
@@ -219,7 +254,7 @@ sudo systemctl status pi-monitor-agent
 ```bash
 # Download service file
 sudo curl -o /etc/systemd/system/pi-monitor-dashboard.service \
-    https://raw.githubusercontent.com/YOUR_USERNAME/pi-monitor/main/dashboard/pi-monitor-dashboard.service
+    https://raw.githubusercontent.com/JGRSGIS/pi-monitor/main/dashboard/pi-monitor-dashboard.service
 
 # Reload systemd, enable, and start
 sudo systemctl daemon-reload
@@ -843,6 +878,76 @@ Pi Monitor is designed for **trusted local networks**. Be aware of these securit
 2. Put the dashboard behind a reverse proxy (nginx/Caddy) with HTTPS
 3. Add HTTP Basic Auth via your reverse proxy
 4. Consider VPN for remote access
+
+## Development
+
+### Setting Up a Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/JGRSGIS/pi-monitor.git
+cd pi-monitor
+
+# Create and activate a virtual environment (recommended)
+python3 -m venv venv
+source venv/bin/activate
+
+# Install development dependencies
+pip install -r requirements-dev.txt
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage report
+pytest tests/ --cov=agent --cov=dashboard --cov-report=html
+
+# Run specific test file
+pytest tests/test_agent.py -v
+```
+
+### Running Locally for Development
+
+```bash
+# Run agent directly (no installation needed)
+python3 agent/pi_monitor_agent.py
+
+# In another terminal, run dashboard
+python3 dashboard/pi_monitor_dashboard.py
+```
+
+### Code Quality
+
+```bash
+# Run linting
+flake8 agent/ dashboard/ tests/
+
+# Format code (if black is installed)
+black agent/ dashboard/ tests/
+
+# Run pre-commit hooks
+pre-commit run --all-files
+```
+
+### Project Structure
+
+```
+pi-monitor/
+├── agent/
+│   ├── pi_monitor_agent.py      # Agent script (runs on each Pi)
+│   └── pi-monitor-agent.service # Systemd service file
+├── dashboard/
+│   ├── pi_monitor_dashboard.py  # Dashboard script (runs on one Pi)
+│   └── pi-monitor-dashboard.service
+├── tests/
+│   ├── test_agent.py            # Agent unit tests
+│   └── test_dashboard.py        # Dashboard unit tests
+├── install.sh                   # Installation script
+└── README.md
+```
 
 ## Contributing
 
