@@ -34,6 +34,7 @@ A lightweight, zero-dependency monitoring system for Raspberry Pi fleets. View C
 - [Security Considerations](#security-considerations)
 - [Development](#development)
 - [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
 - [License](#license)
 
 ## Overview
@@ -971,6 +972,97 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 - Auto-discovery via mDNS
 - Alert thresholds and notifications
 - Documentation improvements
+
+## Acknowledgments
+
+We are grateful to the many individuals, projects, and organizations that have made Pi Monitor possible.
+
+### Python Standard Library
+
+Pi Monitor's zero-dependency design is made possible by Python's excellent standard library. We rely on these built-in modules:
+
+| Module | Purpose | Documentation |
+|--------|---------|---------------|
+| `http.server` | Lightweight HTTP server for agents and dashboard | [docs.python.org](https://docs.python.org/3/library/http.server.html) |
+| `urllib.request` | HTTP client for polling agents | [docs.python.org](https://docs.python.org/3/library/urllib.request.html) |
+| `json` | JSON encoding/decoding for metrics API | [docs.python.org](https://docs.python.org/3/library/json.html) |
+| `threading` | Concurrent background polling | [docs.python.org](https://docs.python.org/3/library/threading.html) |
+| `socket` | Network operations and IP detection | [docs.python.org](https://docs.python.org/3/library/socket.html) |
+| `os` | System-level operations (statvfs) | [docs.python.org](https://docs.python.org/3/library/os.html) |
+
+Python is licensed under the [PSF License](https://docs.python.org/3/license.html), which is compatible with our MIT license.
+
+### Linux Kernel Interfaces
+
+System metrics collection relies on the Linux kernel's virtual filesystems, documented in the [Linux kernel documentation](https://www.kernel.org/doc/html/latest/):
+
+| Interface | Metrics Provided | Kernel Documentation |
+|-----------|------------------|---------------------|
+| `/proc/stat` | CPU usage statistics | [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) |
+| `/proc/meminfo` | Memory usage statistics | [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) |
+| `/proc/loadavg` | System load averages | [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) |
+| `/proc/uptime` | System uptime | [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) |
+| `/sys/class/thermal/` | CPU temperature | [Thermal sysfs](https://www.kernel.org/doc/html/latest/driver-api/thermal/sysfs-api.html) |
+| `/proc/device-tree/model` | Hardware model identification | [Device Tree](https://www.kernel.org/doc/html/latest/devicetree/) |
+
+### Raspberry Pi Foundation
+
+Special thanks to the [Raspberry Pi Foundation](https://www.raspberrypi.org/) for creating affordable, accessible single-board computers that inspired this project. Pi Monitor is designed to run efficiently on all Raspberry Pi models, from the Pi Zero to the Pi 5.
+
+### Inspired By
+
+Pi Monitor was created as a lightweight alternative to more comprehensive monitoring solutions. We acknowledge these projects for demonstrating what's possible in the monitoring space:
+
+- **[Prometheus](https://prometheus.io/)** — The industry-standard monitoring toolkit that inspired our metrics-first approach. Licensed under Apache 2.0.
+- **[Grafana](https://grafana.com/)** — Beautiful dashboards that inspired our visual design philosophy. Licensed under AGPL-3.0.
+- **[htop](https://htop.dev/)** — An elegant process viewer that demonstrated how system metrics can be presented clearly. Licensed under GPL-2.0.
+- **[Glances](https://nicolargo.github.io/glances/)** — A cross-platform monitoring tool that showed the value of Python for system monitoring. Licensed under LGPL-3.0.
+
+### Development Tools
+
+Our development workflow is powered by excellent open-source tools:
+
+**Code Quality & Formatting:**
+
+- **[Black](https://github.com/psf/black)** — The uncompromising Python code formatter. MIT License.
+- **[Ruff](https://github.com/astral-sh/ruff)** — An extremely fast Python linter. MIT License.
+- **[Flake8](https://github.com/pycqa/flake8)** — Python style guide enforcement. MIT License.
+- **[isort](https://github.com/pycqa/isort)** — Python import sorting. MIT License.
+- **[mypy](https://github.com/python/mypy)** — Static type checker for Python. MIT License.
+
+**Testing:**
+
+- **[pytest](https://github.com/pytest-dev/pytest)** — The Python testing framework. MIT License.
+- **[pytest-cov](https://github.com/pytest-dev/pytest-cov)** — Coverage plugin for pytest. MIT License.
+
+**Security:**
+
+- **[Bandit](https://github.com/pycqa/bandit)** — Security linter for Python. Apache 2.0 License.
+- **[Safety](https://github.com/pyupio/safety)** — Dependency vulnerability checker. MIT License.
+
+**Automation:**
+
+- **[pre-commit](https://github.com/pre-commit/pre-commit)** — Git hooks framework. MIT License.
+- **[markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)** — Markdown style checker. MIT License.
+- **[conventional-pre-commit](https://github.com/compilerla/conventional-pre-commit)** — Conventional commit message linting. Apache 2.0 License.
+
+### Platforms & Services
+
+- **[GitHub](https://github.com/)** — Repository hosting, issue tracking, and collaboration.
+- **[pre-commit.ci](https://pre-commit.ci/)** — Continuous integration for pre-commit hooks.
+- **[systemd](https://systemd.io/)** — Service management on Linux systems. LGPL-2.1 License.
+
+### Home Assistant Community
+
+Thanks to the [Home Assistant](https://www.home-assistant.io/) community for inspiring our REST API design, making Pi Monitor easy to integrate with home automation systems.
+
+### License Compatibility
+
+All development dependencies are compatible with Pi Monitor's MIT license. The project maintains zero runtime dependencies, so no license considerations apply to production deployments. Development tools use permissive licenses (MIT, Apache 2.0) or copyleft licenses (GPL, LGPL) that apply only to the tools themselves, not to code developed using them.
+
+---
+
+*If we've missed acknowledging your contribution or project, please [open an issue](https://github.com/JGRSGIS/pi-monitor/issues) and let us know!*
 
 ## License
 
