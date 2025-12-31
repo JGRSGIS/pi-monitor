@@ -15,16 +15,17 @@ import json
 import socket
 import threading
 import time
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.request import urlopen
-from urllib.error import URLError
 from datetime import datetime
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from typing import List
+from urllib.error import URLError
+from urllib.request import urlopen
 
 # =============================================================================
 # Configuration - EDIT THIS LIST
 # =============================================================================
 
-MONITORED_HOSTS = [
+MONITORED_HOSTS: List[str] = [
     # Add your Raspberry Pi IP addresses or hostnames here:
     # "192.168.1.100",
     # "192.168.1.101",
@@ -32,9 +33,9 @@ MONITORED_HOSTS = [
     # "octopi.local",
 ]
 
-AGENT_PORT = 5555       # Port where agents are running
-DASHBOARD_PORT = 8080   # Port for this web dashboard
-POLL_INTERVAL = 5       # Seconds between metric polls
+AGENT_PORT = 5555  # Port where agents are running
+DASHBOARD_PORT = 8080  # Port for this web dashboard
+POLL_INTERVAL = 5  # Seconds between metric polls
 
 # =============================================================================
 # Shared State
@@ -54,13 +55,13 @@ def fetch_metrics(host):
         url = f"http://{host}:{AGENT_PORT}/metrics"
         with urlopen(url, timeout=3) as response:
             data = json.loads(response.read().decode())
-            data['status'] = 'online'
-            data['last_seen'] = datetime.now().isoformat()
+            data["status"] = "online"
+            data["last_seen"] = datetime.now().isoformat()
             return data
     except URLError:
-        return {'hostname': host, 'status': 'offline', 'ip': host}
+        return {"hostname": host, "status": "offline", "ip": host}
     except Exception as e:
-        return {'hostname': host, 'status': 'error', 'error': str(e), 'ip': host}
+        return {"hostname": host, "status": "error", "error": str(e), "ip": host}
 
 
 def poll_all_hosts():
@@ -77,7 +78,7 @@ def poll_all_hosts():
 # HTML Dashboard
 # =============================================================================
 
-DASHBOARD_HTML = '''<!DOCTYPE html>
+DASHBOARD_HTML = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -387,12 +388,13 @@ MONITORED_HOSTS = [<br>
         setInterval(updateDashboard, 5000);
     </script>
 </body>
-</html>'''
+</html>"""
 
 
 # =============================================================================
 # HTTP Server
 # =============================================================================
+
 
 class DashboardHandler(BaseHTTPRequestHandler):
     """HTTP handler for dashboard and API endpoints."""
@@ -403,30 +405,31 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         """Handle GET requests."""
-        if self.path == '/':
+        if self.path == "/":
             self.send_response(200)
-            self.send_header('Content-Type', 'text/html; charset=utf-8')
+            self.send_header("Content-Type", "text/html; charset=utf-8")
             self.end_headers()
-            self.wfile.write(DASHBOARD_HTML.encode('utf-8'))
+            self.wfile.write(DASHBOARD_HTML.encode("utf-8"))
 
-        elif self.path == '/api/metrics':
+        elif self.path == "/api/metrics":
             with data_lock:
                 response = json.dumps(pi_data)
             self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
+            self.send_header("Content-Type", "application/json")
             self.end_headers()
             self.wfile.write(response.encode())
 
         else:
             self.send_response(404)
-            self.send_header('Content-Type', 'text/plain')
+            self.send_header("Content-Type", "text/plain")
             self.end_headers()
-            self.wfile.write(b'Not Found')
+            self.wfile.write(b"Not Found")
 
 
 # =============================================================================
 # Utilities
 # =============================================================================
+
 
 def get_local_ip():
     """Get local IP address."""
@@ -443,6 +446,7 @@ def get_local_ip():
 # =============================================================================
 # Main
 # =============================================================================
+
 
 def main():
     """Start the dashboard server."""
@@ -475,7 +479,7 @@ def main():
         poller.start()
 
     # Start web server
-    server = HTTPServer(('0.0.0.0', DASHBOARD_PORT), DashboardHandler)
+    server = HTTPServer(("0.0.0.0", DASHBOARD_PORT), DashboardHandler)
 
     try:
         server.serve_forever()
@@ -484,5 +488,5 @@ def main():
         server.shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

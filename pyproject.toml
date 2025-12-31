@@ -111,13 +111,14 @@ select = [
 ignore = [
     "E501",  # line too long (handled by formatter)
     "S104",  # binding to all interfaces (intentional for this project)
+    "S310",  # urlopen with http:// scheme (intentional for local network metrics)
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "**/test_*.py" = ["S101"]  # Allow assert in tests
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.8"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false  # Gradual typing
@@ -143,4 +144,4 @@ exclude_lines = [
 
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "venv"]
-skips = ["B104"]  # Skip binding to all interfaces warning (intentional)
+skips = ["B104", "B310"]  # B104: binding to all interfaces, B310: urlopen with http (both intentional)

@@ -1,0 +1,118 @@
+# Pi Monitor - EditorConfig
+# ==========================
+#
+# EditorConfig helps maintain consistent coding styles across different
+# editors and IDEs. See: https://editorconfig.org/
+
+# Top-most EditorConfig file
+root = true
+
+# =============================================================================
+# Default Settings (All Files)
+# =============================================================================
+[*]
+# Use Unix-style line endings
+end_of_line = lf
+
+# UTF-8 encoding
+charset = utf-8
+
+# Ensure files end with a newline
+insert_final_newline = true
+
+# Remove trailing whitespace
+trim_trailing_whitespace = true
+
+# Default indentation (4 spaces)
+indent_style = space
+indent_size = 4
+
+# Maximum line length (matches Black/Ruff config)
+max_line_length = 100
+
+# =============================================================================
+# Python Files
+# =============================================================================
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 100
+
+# =============================================================================
+# Configuration Files (YAML, TOML, JSON)
+# =============================================================================
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[*.toml]
+indent_style = space
+indent_size = 4
+
+[*.json]
+indent_style = space
+indent_size = 2
+
+# =============================================================================
+# Markdown
+# =============================================================================
+[*.md]
+# Don't trim trailing whitespace in Markdown (two spaces = line break)
+trim_trailing_whitespace = false
+indent_style = space
+indent_size = 2
+max_line_length = off
+
+# =============================================================================
+# Shell Scripts
+# =============================================================================
+[*.sh]
+indent_style = space
+indent_size = 4
+
+# =============================================================================
+# Systemd Service Files
+# =============================================================================
+[*.service]
+indent_style = space
+indent_size = 4
+
+# =============================================================================
+# Makefiles (require tabs)
+# =============================================================================
+[Makefile]
+indent_style = tab
+indent_size = 4
+
+[makefile]
+indent_style = tab
+indent_size = 4
+
+# =============================================================================
+# Git Configuration
+# =============================================================================
+[.gitattributes]
+indent_style = space
+indent_size = 4
+
+[.gitignore]
+indent_style = space
+indent_size = 4
+
+# =============================================================================
+# Docker
+# =============================================================================
+[Dockerfile]
+indent_style = space
+indent_size = 4
+
+[docker-compose*.yml]
+indent_style = space
+indent_size = 2
+
+# =============================================================================
+# GitHub Actions
+# =============================================================================
+[.github/**.yml]
+indent_style = space
+indent_size = 2

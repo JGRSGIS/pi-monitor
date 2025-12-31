@@ -27,6 +27,7 @@ sudo systemctl enable --now pi-monitor-agent
 **Endpoint:** `GET /metrics`
 
 **Response:**
+
 ```json
 {
   "hostname": "raspberrypi",

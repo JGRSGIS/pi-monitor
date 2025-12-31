@@ -64,7 +64,7 @@ Since we avoid dependencies, testing is manual:
 - [ ] Alert thresholds
 - [ ] Documentation improvements
 
-## Questions?
+## Questions
 
 Open an issue with the "question" label.
 
