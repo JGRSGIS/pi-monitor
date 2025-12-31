@@ -1,0 +1,180 @@
+# Pi Monitor - Markdownlint Configuration
+# ========================================
+#
+# Markdownlint checks Markdown files for style and consistency.
+# See: https://github.com/DavidAnson/markdownlint
+#
+# Run: markdownlint --config .markdownlint.yaml "**/*.md"
+
+# Default state for all rules
+default: true
+
+# =============================================================================
+# Line Length
+# =============================================================================
+
+# MD013 - Line length
+# Disable line length checking for documentation flexibility
+# (long lines are common in README badges, URLs, and tables)
+MD013: false
+
+# =============================================================================
+# Headings
+# =============================================================================
+
+# MD001 - Heading levels should only increment by one level at a time
+MD001: true
+
+# MD003 - Heading style (use ATX style: # Heading)
+MD003:
+  style: atx
+
+# MD022 - Headings should be surrounded by blank lines
+MD022:
+  lines_above: 1
+  lines_below: 1
+
+# MD024 - Multiple headings with the same content
+# Allow same heading text in different sections
+MD024:
+  siblings_only: true
+
+# MD025 - Single h1 heading
+# Multiple H1s are allowed (e.g., for CHANGELOG)
+MD025: false
+
+# MD041 - First line should be a heading
+MD041: true
+
+# =============================================================================
+# Lists
+# =============================================================================
+
+# MD004 - Unordered list style
+MD004:
+  style: dash
+
+# MD007 - Unordered list indentation
+MD007:
+  indent: 2
+  start_indented: false
+
+# MD029 - Ordered list item prefix
+MD029:
+  style: ordered
+
+# MD030 - Spaces after list markers
+MD030:
+  ul_single: 1
+  ol_single: 1
+  ul_multi: 1
+  ol_multi: 1
+
+# MD032 - Lists should be surrounded by blank lines
+MD032: true
+
+# =============================================================================
+# Code Blocks
+# =============================================================================
+
+# MD014 - Dollar signs used before commands
+# Allow $ in shell examples
+MD014: false
+
+# MD031 - Fenced code blocks should be surrounded by blank lines
+MD031: true
+
+# MD040 - Fenced code blocks should have a language specified
+# Allow unspecified language for generic code blocks
+MD040: false
+
+# MD046 - Code block style
+MD046:
+  style: fenced
+
+# MD048 - Code fence style
+MD048:
+  style: backtick
+
+# =============================================================================
+# Links and Images
+# =============================================================================
+
+# MD034 - Bare URLs should be enclosed in angle brackets
+MD034: false
+
+# MD042 - No empty links
+# Disabled: badges and shields often use placeholder links
+MD042: false
+
+# MD045 - Images should have alternate text
+MD045: true
+
+# =============================================================================
+# Whitespace and Formatting
+# =============================================================================
+
+# MD009 - Trailing spaces
+MD009:
+  br_spaces: 2
+
+# MD010 - Hard tabs
+MD010: true
+
+# MD012 - Multiple consecutive blank lines
+MD012:
+  maximum: 2
+
+# MD047 - Files should end with a single newline
+MD047: true
+
+# =============================================================================
+# HTML
+# =============================================================================
+
+# MD033 - Inline HTML
+# Allow specific HTML elements (for GitHub features)
+MD033:
+  allowed_elements:
+    - br
+    - details
+    - summary
+    - kbd
+    - sub
+    - sup
+    - img
+    - a
+    - strong
+    - em
+    - code
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+
+# MD026 - Trailing punctuation in heading
+MD026:
+  punctuation: ".,;:!?"
+
+# MD036 - Emphasis used instead of a heading
+MD036: false
+
+# MD044 - Proper names should have correct capitalization
+MD044:
+  names:
+    - Python
+    - Raspberry Pi
+    - GitHub
+    - Linux
+    - JSON
+    - YAML
+    - TOML
+  code_blocks: false
+
+# MD049 - Emphasis style
+MD049:
+  style: asterisk
+
+# MD050 - Strong style
+MD050:
+  style: asterisk

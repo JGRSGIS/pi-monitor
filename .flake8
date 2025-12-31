@@ -1,0 +1,85 @@
+# Pi Monitor - Flake8 Configuration
+# ==================================
+#
+# This configuration mirrors settings in pyproject.toml for tools that
+# can read from there, but flake8 requires its own config file.
+#
+# Run: flake8 agent/ dashboard/
+#
+# See: https://flake8.pycqa.org/en/latest/user/configuration.html
+
+[flake8]
+# Maximum line length (matches Black)
+max-line-length = 100
+
+# Maximum cyclomatic complexity
+max-complexity = 10
+
+# Files and directories to exclude
+exclude =
+    .git,
+    .venv,
+    venv,
+    env,
+    __pycache__,
+    *.pyc,
+    .eggs,
+    *.egg,
+    build,
+    dist,
+    .mypy_cache,
+    .pytest_cache,
+    .ruff_cache
+
+# Errors and warnings to ignore
+ignore =
+    # E501: line too long (handled by Black formatter)
+    E501,
+    # W503: line break before binary operator (conflicts with Black)
+    W503,
+    # E203: whitespace before ':' (conflicts with Black)
+    E203,
+    # E266: too many leading '#' for block comment (stylistic choice)
+    E266,
+    # B950: line too long (handled by Black formatter)
+    B950,
+
+# Per-file ignores
+per-file-ignores =
+    # Allow unused imports in __init__.py
+    __init__.py: F401
+    # Allow assert statements in tests
+    test_*.py: S101
+    *_test.py: S101
+
+# Select specific error codes to check
+select =
+    # pycodestyle errors
+    E,
+    # pycodestyle warnings
+    W,
+    # pyflakes
+    F,
+    # flake8-bugbear
+    B,
+    # flake8-comprehensions
+    C4,
+    # flake8-simplify
+    SIM,
+
+# Show source code for each error
+show-source = true
+
+# Count errors by type
+statistics = true
+
+# Output format
+format = default
+
+# Enable off-by-default extensions
+extend-select =
+    # bugbear opinionated warnings
+    B9,
+
+# Docstring convention (if using flake8-docstrings)
+# docstring-convention = google

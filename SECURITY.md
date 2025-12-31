@@ -19,6 +19,7 @@ The project has minimal security concerns due to its intentional simplicity and 
 ## Dependency Analysis
 
 ### External Dependencies
+
 | Category | Count | Status |
 |----------|-------|--------|
 | Runtime Dependencies | 0 | N/A |
@@ -31,6 +32,7 @@ The project has minimal security concerns due to its intentional simplicity and 
 All imports are from Python's standard library:
 
 **Agent (`pi_monitor_agent.py`):**
+
 - `json` - Safe for serialization
 - `socket` - Network operations
 - `os` - OS-level calls (limited to `statvfs`)
@@ -39,6 +41,7 @@ All imports are from Python's standard library:
 - `datetime` - Date/time handling
 
 **Dashboard (`pi_monitor_dashboard.py`):**
+
 - `json` - JSON handling
 - `socket` - Network operations
 - `threading` - Multi-threading
@@ -61,6 +64,7 @@ All imports are from Python's standard library:
 **Impact:** Metrics data transmitted in plaintext. In a trusted home/LAN network, this is acceptable. On untrusted networks, data could be intercepted.
 
 **Recommendation:**
+
 - For LAN-only use: Current implementation is acceptable
 - For internet exposure: Use a reverse proxy (nginx, Caddy) with TLS termination
 - Never expose ports 5555/8080 directly to the internet
@@ -75,6 +79,7 @@ All imports are from Python's standard library:
 **Impact:** Any website could query the agent's metrics endpoint.
 
 **Recommendation:**
+
 - Acceptable for local LAN use
 - For stricter security, restrict to specific dashboard origins
 
@@ -88,6 +93,7 @@ All imports are from Python's standard library:
 **Impact:** Anyone on the same network can view system metrics.
 
 **Recommendation:**
+
 - Acceptable for trusted home networks
 - For sensitive environments, implement reverse proxy auth or firewall rules
 
@@ -115,6 +121,7 @@ function escapeHtml(text) {
 **Location:** Throughout agent
 
 **Finding:** All file system access uses hardcoded paths:
+
 - `/sys/class/thermal/thermal_zone0/temp`
 - `/proc/stat`
 - `/proc/meminfo`
@@ -176,15 +183,18 @@ PrivateTmp=true
 ## Recommendations
 
 ### Immediate Actions
+
 1. Document that HTTP is intended for LAN-only use
 2. Consider adding a configuration option for binding to localhost only
 
 ### Future Enhancements (Optional)
+
 1. Add basic authentication option for sensitive environments
 2. Create a TLS-enabled version or document reverse proxy setup
 3. Add rate limiting to prevent resource exhaustion
 
 ### Development Security
+
 1. Run `bandit -r agent/ dashboard/` before releases
 2. Set up pre-commit hooks with security linters
 3. Keep Python version updated (recommend 3.11+)

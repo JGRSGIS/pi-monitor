@@ -146,6 +146,7 @@ sudo ./install.sh dashboard
 ```
 
 The install script will:
+
 - Copy files to `/opt/pi-monitor/`
 - Install systemd service files
 - Enable and start the service automatically
@@ -595,22 +596,26 @@ sensor:
 **Solutions:**
 
 1. Check Python version:
+
    ```bash
    python3 --version  # Must be 3.7+
    ```
 
 2. Check for port conflicts:
+
    ```bash
    sudo lsof -i :5555
    # Kill conflicting process if needed
    ```
 
 3. Run manually to see errors:
+
    ```bash
    python3 /opt/pi-monitor/pi_monitor_agent.py
    ```
 
 4. Check service logs:
+
    ```bash
    sudo journalctl -u pi-monitor-agent -n 50 --no-pager
    ```
@@ -625,21 +630,25 @@ sensor:
 **Solutions:**
 
 1. Check if agent is running:
+
    ```bash
    sudo systemctl status pi-monitor-agent
    ```
 
 2. Verify the port is listening:
+
    ```bash
    sudo ss -tlnp | grep 5555
    ```
 
 3. Test localhost connection:
+
    ```bash
    curl -v http://localhost:5555/metrics
    ```
 
 4. Check firewall:
+
    ```bash
    sudo ufw status
    sudo iptables -L -n | grep 5555
@@ -653,11 +662,13 @@ sensor:
 **Symptoms:** Dashboard shows "N/A" for temperature.
 
 **This is normal for:**
+
 - Raspberry Pi Zero (no thermal zone exposed)
 - Virtual machines
 - Some Pi models without thermal sensors
 
 **Verify on the Pi:**
+
 ```bash
 cat /sys/class/thermal/thermal_zone0/temp
 # Should return a number like 45000 (= 45.0°C)
@@ -674,22 +685,26 @@ cat /sys/class/thermal/thermal_zone0/temp
 **Step-by-step debugging:**
 
 1. Verify agent is running on target Pi:
+
    ```bash
    ssh pi@192.168.1.100
    sudo systemctl status pi-monitor-agent
    ```
 
 2. Test network connectivity:
+
    ```bash
    ping 192.168.1.100
    ```
 
 3. Test agent from dashboard Pi:
+
    ```bash
    curl http://192.168.1.100:5555/metrics
    ```
 
 4. Check firewall on the agent Pi:
+
    ```bash
    ssh pi@192.168.1.100
    sudo ufw allow 5555/tcp
@@ -705,21 +720,25 @@ cat /sys/class/thermal/thermal_zone0/temp
 **Solutions:**
 
 1. Check dashboard is running:
+
    ```bash
    sudo systemctl status pi-monitor-dashboard
    ```
 
 2. Verify port is listening:
+
    ```bash
    sudo ss -tlnp | grep 8080
    ```
 
 3. Check firewall allows port 8080:
+
    ```bash
    sudo ufw allow 8080/tcp
    ```
 
 4. Try accessing via localhost:
+
    ```bash
    curl http://localhost:8080
    ```
@@ -734,6 +753,7 @@ cat /sys/class/thermal/thermal_zone0/temp
 **Solutions:**
 
 1. Check dashboard logs for polling errors:
+
    ```bash
    sudo journalctl -u pi-monitor-dashboard -f
    ```
@@ -741,11 +761,13 @@ cat /sys/class/thermal/thermal_zone0/temp
 2. Verify `POLL_INTERVAL` setting (default 5 seconds).
 
 3. Check if agents are responding:
+
    ```bash
    curl http://<pi-ip>:5555/metrics
    ```
 
 4. Restart dashboard:
+
    ```bash
    sudo systemctl restart pi-monitor-dashboard
    ```
@@ -760,11 +782,13 @@ cat /sys/class/thermal/thermal_zone0/temp
 The dashboard uses a 3-second timeout when polling agents. If your network is slow:
 
 1. Check network latency:
+
    ```bash
    ping -c 10 192.168.1.100
    ```
 
 2. For high-latency networks, you may need to modify the timeout in `pi_monitor_dashboard.py`:
+
    ```python
    # Line ~55
    with urlopen(url, timeout=3) as response:  # Increase from 3
