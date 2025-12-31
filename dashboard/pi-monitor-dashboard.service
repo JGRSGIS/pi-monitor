@@ -1,6 +1,6 @@
 [Unit]
 Description=Pi Monitor Dashboard
-Documentation=https://github.com/YOUR_USERNAME/pi-monitor
+Documentation=https://github.com/JGRSGIS/pi-monitor
 After=network-online.target
 Wants=network-online.target
 

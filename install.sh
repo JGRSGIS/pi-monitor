@@ -23,7 +23,7 @@ NC='\033[0m'
 
 # Configuration
 INSTALL_DIR="/opt/pi-monitor"
-REPO_URL="https://raw.githubusercontent.com/YOUR_USERNAME/pi-monitor/main"
+REPO_URL="https://raw.githubusercontent.com/JGRSGIS/pi-monitor/main"
 
 print_header() {
     echo ""
