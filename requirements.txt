@@ -1,0 +1,24 @@
+# Pi Monitor - Production Requirements
+# =====================================
+#
+# This project intentionally uses ZERO external dependencies.
+# All functionality is implemented using Python 3.7+ standard library only.
+#
+# Standard library modules used:
+# - json          (JSON encoding/decoding)
+# - socket        (Network operations)
+# - os            (OS-level operations)
+# - time          (Timing functions)
+# - http.server   (Built-in HTTP server)
+# - datetime      (Date/time handling)
+# - threading     (Multi-threading support)
+# - urllib        (URL/HTTP operations)
+#
+# Python Version Requirement:
+# - Minimum: Python 3.7 (for f-strings, http.server improvements)
+# - Recommended: Python 3.9+ (for better performance and security fixes)
+#
+# To verify your Python version:
+#   python3 --version
+#
+# No pip install required for production use.

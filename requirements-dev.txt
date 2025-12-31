@@ -1,0 +1,83 @@
+# Pi Monitor - Development Requirements
+# ======================================
+#
+# Install with: pip install -r requirements-dev.txt
+#
+# These dependencies are for development, testing, and CI/CD only.
+# Production deployment requires NO external packages.
+
+# -----------------------------------------------------------------------------
+# Testing
+# -----------------------------------------------------------------------------
+pytest==8.3.4                    # Testing framework
+pytest-cov==6.0.0                # Coverage reporting
+pytest-mock==3.14.0              # Mocking utilities
+pytest-asyncio==0.24.0           # Async test support
+responses==0.25.3                # HTTP request mocking
+
+# -----------------------------------------------------------------------------
+# Code Quality & Linting
+# -----------------------------------------------------------------------------
+flake8==7.1.1                    # Style guide enforcement
+pylint==3.3.2                    # Static code analysis
+black==24.10.0                   # Code formatter
+isort==5.13.2                    # Import sorting
+ruff==0.8.4                      # Fast Python linter (alternative to flake8)
+
+# -----------------------------------------------------------------------------
+# Type Checking
+# -----------------------------------------------------------------------------
+mypy==1.13.0                     # Static type checker
+types-urllib3==1.26.25.14        # Type stubs for urllib3
+
+# -----------------------------------------------------------------------------
+# Security Scanning
+# -----------------------------------------------------------------------------
+bandit==1.8.0                    # Security linter for Python
+safety==3.2.11                   # Check dependencies for vulnerabilities
+pip-audit==2.7.3                 # Audit pip packages for vulnerabilities
+
+# -----------------------------------------------------------------------------
+# Documentation (optional)
+# -----------------------------------------------------------------------------
+# mkdocs==1.6.1                  # Documentation generator
+# mkdocs-material==9.5.47        # Material theme for mkdocs
+
+# -----------------------------------------------------------------------------
+# Development Utilities
+# -----------------------------------------------------------------------------
+pre-commit==4.0.1                # Git hooks framework
+watchdog==6.0.0                  # File system monitoring (for auto-reload)
+
+# -----------------------------------------------------------------------------
+# Build & Packaging (if distributing)
+# -----------------------------------------------------------------------------
+build==1.2.2                     # PEP 517 build frontend
+twine==6.0.1                     # PyPI upload tool
+wheel==0.45.1                    # Wheel packaging
+
+# =============================================================================
+# NOTES
+# =============================================================================
+#
+# Security Scanning Commands:
+#   bandit -r agent/ dashboard/      # Scan for security issues
+#   safety check -r requirements.txt  # Check for vulnerable packages
+#   pip-audit                         # Audit installed packages
+#
+# Linting Commands:
+#   flake8 agent/ dashboard/          # Check style
+#   pylint agent/ dashboard/          # Static analysis
+#   black --check agent/ dashboard/   # Check formatting
+#   ruff check agent/ dashboard/      # Fast linting
+#
+# Type Checking:
+#   mypy agent/ dashboard/            # Check types
+#
+# Testing Commands:
+#   pytest                            # Run tests
+#   pytest --cov=. --cov-report=html  # With coverage report
+#
+# Pre-commit Setup:
+#   pre-commit install                # Install git hooks
+#   pre-commit run --all-files        # Run all hooks
